@@ -75,11 +75,14 @@ app.get('/', (req, res) => {
 
 app.get('/api/getGalleryImages', (req, res) => {
     try {
-        const allGalleryImages = client.query("SELECT * FROM galleryimageobjs", (err, res) => {
+        var allGalleryImages = null;
+        client.query("SELECT * FROM galleryimageobjs", (err, res) => {
             if (err) throw err
-            console.log(res)
+            allGalleryImages = res
             // client.end()
         });
+        console.log("ALL GALLERY IMAGES BELOW");
+        console.log(allGalleryImages)
         res.json(allGalleryImages.rows)
     }
     catch (err) {
@@ -152,14 +155,16 @@ app.post("/api/login", cors(), (req, res) => {
 app.post("/api/setGView", cors(), (req, res) => {
     try {
         const data = req.query;
-        const allGalleryImages = client.query("SELECT * FROM galleryimageobjs", (err, res) => {
+        var allGalleryImages = null;
+        var gViewObj = null;
+        client.query("SELECT * FROM galleryimageobjs", (err, res) => {
             if (err) throw err
-            console.log(res)
+            allGalleryImages = res;
             // client.end()
         });
-        const gViewObj = client.query("SELECT * FROM galleryimageobjs WHERE galleryimageobj_id=" + data['data'], (err, res) => {
+        client.query("SELECT * FROM galleryimageobjs WHERE galleryimageobj_id=" + data['data'], (err, res) => {
             if (err) throw err
-            console.log(res)
+            gViewObj = res;
             // client.end()
         });
         const gImageLength = allGalleryImages.rows.length;
