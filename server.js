@@ -154,8 +154,6 @@ app.post("/api/setGView", cors(), (req, res) => {
         const data = req.query;
         console.log("DATA IS BELOW");
         console.log(data);
-        // var allGalleryImages = null;
-        // var gViewObj = null;
         client.query("SELECT * FROM galleryimageobjs", (err, response) => {
             if (err) throw err
             console.log("RESPONSE IS BELOW");
@@ -165,23 +163,29 @@ app.post("/api/setGView", cors(), (req, res) => {
                 console.log("RESPONSE 2 IS BELOW");
                 console.log(response2);
                 console.log(response);
+                const allGalleryImages = response;
+                const gViewObj = response2;
+                const gImageLength = allGalleryImages.rows.length;
+                galleryViewImage = gViewObj.rows[0]
+                console.log("GALLERY VIEW IMAGE IS BELOW");
+                console.log("GALLERY VIEW IMAGE IS BELOW");
+                console.log("GALLERY VIEW IMAGE IS BELOW");
+                console.log("GALLERY VIEW IMAGE IS BELOW");
+                // if (galleryViewImage['galleryimageobj_id'] == gImageLength) {
+                //     galleryViewImage['next'] = gImageLength - 1;
+                //     galleryViewImage['prev'] = null
+                // }
+                // else if (galleryViewImage['galleryimageobj_id'] == 1) {
+                //     galleryViewImage['next'] = null;
+                //     galleryViewImage['prev'] = 2;
+                // }
+                // else {
+                //     galleryViewImage['next'] = galleryViewImage['galleryimageobj_id'] - 1;
+                //     galleryViewImage['prev'] = galleryViewImage['galleryimageobj_id'] + 1;
+                // }
             });
         });
 
-        // const gImageLength = allGalleryImages.rows.length;
-        // galleryViewImage = gViewObj.rows[0]
-        // if (galleryViewImage['galleryimageobj_id'] == gImageLength) {
-        //     galleryViewImage['next'] = gImageLength - 1;
-        //     galleryViewImage['prev'] = null
-        // }
-        // else if (galleryViewImage['galleryimageobj_id'] == 1) {
-        //     galleryViewImage['next'] = null;
-        //     galleryViewImage['prev'] = 2;
-        // }
-        // else {
-        //     galleryViewImage['next'] = galleryViewImage['galleryimageobj_id'] - 1;
-        //     galleryViewImage['prev'] = galleryViewImage['galleryimageobj_id'] + 1;
-        // }
         res.sendStatus(200);
     }
     catch (err) {
