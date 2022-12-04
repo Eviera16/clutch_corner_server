@@ -77,12 +77,8 @@ app.get('/api/getGalleryImages', (req, res) => {
     try {
         client.query("SELECT * FROM galleryimageobjs", (err, response) => {
             if (err) throw err
-            console.log("ALL GALLERY IMAGES BELOW");
-            console.log(response)
             res.json(response.rows);
-            // client.end()
         });
-        // res.json(allGalleryImages.rows)
     }
     catch (err) {
         console.error(err.message);
@@ -152,6 +148,7 @@ app.post("/api/login", cors(), (req, res) => {
 })
 
 app.post("/api/setGView", cors(), (req, res) => {
+    console.log("IN THE SET G VIEW");
     try {
         const data = req.query;
         var allGalleryImages = null;
