@@ -58,11 +58,11 @@ var galleryViewImage = {};
 
 app.get('/', (req, res) => {
     try {
-        // const allGalleryImages = client.query("SELECT * FROM galleryimageobjs", (err, res) => {
-        //     if (err) throw err
-        //     console.log(res)
-        //     client.end()
-        // });
+        client.query("SELECT * FROM galleryimageobjs", (err, res) => {
+            if (err) throw err
+            console.log("##### RES IS RIGHT HERE #####", res)
+            // client.end()
+        });
         // console.log("***** GALLERY IMAGES ARE BELOW *****");
         // console.log(allGalleryImages);
         // numImages = allGalleryImages.rows.length;
