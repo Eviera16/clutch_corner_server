@@ -110,7 +110,8 @@ const check_inputs = (title, desc, img) => {
 }
 
 app.post('/addGallery', upload2.single('image'), urlEncodedParser, (req, res, next) => {
-    const { title, description, image } = req.body;
+    const { title, description } = req.body;
+    const image = req.file;
     const errors = check_inputs(title, description, image);
     if (errors) {
         return res.render('', {
