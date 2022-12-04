@@ -151,32 +151,34 @@ app.post("/api/setGView", cors(), (req, res) => {
     console.log("IN THE SET G VIEW");
     try {
         const data = req.query;
-        var allGalleryImages = null;
-        var gViewObj = null;
-        client.query("SELECT * FROM galleryimageobjs", (err, res) => {
+        // var allGalleryImages = null;
+        // var gViewObj = null;
+        client.query("SELECT * FROM galleryimageobjs", (err, response) => {
             if (err) throw err
-            allGalleryImages = res;
-            // client.end()
+            console.log("RESPONSE IS BELOW");
+            console.log(response);
+            client.query("SELECT * FROM galleryimageobjs WHERE galleryimageobj_id=" + data['data'], (err, response2) => {
+                if (err) throw err
+                console.log("RESPONSE 2 IS BELOW");
+                console.log(response2);
+                console.log(response);
+            });
         });
-        client.query("SELECT * FROM galleryimageobjs WHERE galleryimageobj_id=" + data['data'], (err, res) => {
-            if (err) throw err
-            gViewObj = res;
-            // client.end()
-        });
-        const gImageLength = allGalleryImages.rows.length;
-        galleryViewImage = gViewObj.rows[0]
-        if (galleryViewImage['galleryimageobj_id'] == gImageLength) {
-            galleryViewImage['next'] = gImageLength - 1;
-            galleryViewImage['prev'] = null
-        }
-        else if (galleryViewImage['galleryimageobj_id'] == 1) {
-            galleryViewImage['next'] = null;
-            galleryViewImage['prev'] = 2;
-        }
-        else {
-            galleryViewImage['next'] = galleryViewImage['galleryimageobj_id'] - 1;
-            galleryViewImage['prev'] = galleryViewImage['galleryimageobj_id'] + 1;
-        }
+
+        // const gImageLength = allGalleryImages.rows.length;
+        // galleryViewImage = gViewObj.rows[0]
+        // if (galleryViewImage['galleryimageobj_id'] == gImageLength) {
+        //     galleryViewImage['next'] = gImageLength - 1;
+        //     galleryViewImage['prev'] = null
+        // }
+        // else if (galleryViewImage['galleryimageobj_id'] == 1) {
+        //     galleryViewImage['next'] = null;
+        //     galleryViewImage['prev'] = 2;
+        // }
+        // else {
+        //     galleryViewImage['next'] = galleryViewImage['galleryimageobj_id'] - 1;
+        //     galleryViewImage['prev'] = galleryViewImage['galleryimageobj_id'] + 1;
+        // }
         res.sendStatus(200);
     }
     catch (err) {
