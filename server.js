@@ -79,6 +79,7 @@ app.get('/api/getGalleryImages', (req, res) => {
             if (err) throw err
             console.log("ALL GALLERY IMAGES BELOW");
             console.log(response)
+            res.json(response.rows);
             // client.end()
         });
         // res.json(allGalleryImages.rows)
