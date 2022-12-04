@@ -60,7 +60,7 @@ app.get('/', (req, res) => {
     try {
         client.query("SELECT * FROM galleryimageobjs", (err, res) => {
             if (err) throw err
-            console.log("##### RES IS RIGHT HERE #####", res)
+            console.log("##### RES IS RIGHT HERE #####", res.rows[0])
             // client.end()
         });
         // console.log("***** GALLERY IMAGES ARE BELOW *****");
