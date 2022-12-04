@@ -75,10 +75,9 @@ app.get('/', (req, res) => {
 
 app.get('/api/getGalleryImages', (req, res) => {
     try {
-        var allGalleryImages = null;
-        client.query("SELECT * FROM galleryimageobjs", (err, res) => {
+        const allGalleryImages = client.query("SELECT * FROM galleryimageobjs", (err, res) => {
             if (err) throw err
-            allGalleryImages = res
+            return res;
             // client.end()
         });
         console.log("ALL GALLERY IMAGES BELOW");
