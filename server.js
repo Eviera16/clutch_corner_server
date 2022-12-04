@@ -151,20 +151,22 @@ app.post("/api/setGView", cors(), (req, res) => {
     console.log("IN THE SET G VIEW");
     try {
         const data = req.query;
+        console.log("DATA IS BELOW");
+        console.log(data);
         // var allGalleryImages = null;
         // var gViewObj = null;
         client.query("SELECT * FROM galleryimageobjs", (err, response) => {
             if (err) throw err
             console.log("RESPONSE IS BELOW");
             console.log(response);
-            client.query("SELECT * FROM galleryimageobjs WHERE galleryimageobj_id=" + data['data'], (err, response2) => {
-                if (err) throw err
-                console.log("RESPONSE 2 IS BELOW");
-                console.log(response2);
-                console.log(response);
-            });
         });
 
+        // client.query("SELECT * FROM galleryimageobjs WHERE galleryimageobj_id=" + data['data'], (err, response2) => {
+        //     if (err) throw err
+        //     console.log("RESPONSE 2 IS BELOW");
+        //     console.log(response2);
+        //     console.log(response);
+        // });
         // const gImageLength = allGalleryImages.rows.length;
         // galleryViewImage = gViewObj.rows[0]
         // if (galleryViewImage['galleryimageobj_id'] == gImageLength) {
