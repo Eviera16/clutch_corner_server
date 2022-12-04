@@ -91,6 +91,8 @@ const check_inputs = (title, desc, img) => {
     var titleError = null;
     var descError = null;
     var imgError = null;
+    console.log("IMAGE IS BELOW");
+    console.log(img);
     if (title.split(' ').join('') == "") {
         titleError = "Title is required."
     }
