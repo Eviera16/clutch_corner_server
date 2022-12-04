@@ -167,23 +167,18 @@ app.post("/api/setGView", cors(), (req, res) => {
                 const gViewObj = response2;
                 const gImageLength = allGalleryImages.rows.length;
                 galleryViewImage = gViewObj.rows[0]
-                console.log("GALLERY VIEW IMAGE IS BELOW");
-                console.log("GALLERY VIEW IMAGE IS BELOW");
-                console.log("GALLERY VIEW IMAGE IS BELOW");
-                console.log("GALLERY VIEW IMAGE IS BELOW");
-                console.log(galleryViewImage);
-                // if (galleryViewImage['galleryimageobj_id'] == gImageLength) {
-                //     galleryViewImage['next'] = gImageLength - 1;
-                //     galleryViewImage['prev'] = null
-                // }
-                // else if (galleryViewImage['galleryimageobj_id'] == 1) {
-                //     galleryViewImage['next'] = null;
-                //     galleryViewImage['prev'] = 2;
-                // }
-                // else {
-                //     galleryViewImage['next'] = galleryViewImage['galleryimageobj_id'] - 1;
-                //     galleryViewImage['prev'] = galleryViewImage['galleryimageobj_id'] + 1;
-                // }
+                if (galleryViewImage['galleryimageobj_id'] == gImageLength) {
+                    galleryViewImage['next'] = gImageLength - 1;
+                    galleryViewImage['prev'] = null
+                }
+                else if (galleryViewImage['galleryimageobj_id'] == 1) {
+                    galleryViewImage['next'] = null;
+                    galleryViewImage['prev'] = 2;
+                }
+                else {
+                    galleryViewImage['next'] = galleryViewImage['galleryimageobj_id'] - 1;
+                    galleryViewImage['prev'] = galleryViewImage['galleryimageobj_id'] + 1;
+                }
             });
         });
 
