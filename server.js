@@ -3,7 +3,7 @@ const cors = require('cors');
 const path = require('path');
 const multer = require('multer');
 const bodyParser = require('body-parser');
-const pool = require('./db');
+const client = require('./db');
 const app = express();
 const port = process.env.PORT || 4000
 
@@ -12,6 +12,14 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.json());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+client.connect((err) => {
+    if (err) {
+        console.error('connection error', err.stack)
+    } else {
+        console.log('connected')
+    }
+})
 
 var numImages = 1111;
 var imgFileName = ""
@@ -48,9 +56,13 @@ const urlEncodedParser = bodyParser.urlencoded({ extended: false });
 var galleryViewImage = {};
 
 
-app.get('/', async (req, res) => {
+app.get('/', (req, res) => {
     try {
-        const allGalleryImages = await pool.query("SELECT * FROM galleryimageobjs");
+        const allGalleryImages = client.query("SELECT * FROM galleryimageobjs", (err, res) => {
+            if (err) throw err
+            console.log(res)
+            client.end()
+        });
         numImages = allGalleryImages.rows.length;
         res.render('index');
     }
@@ -59,9 +71,13 @@ app.get('/', async (req, res) => {
     }
 })
 
-app.get('/api/getGalleryImages', async (req, res) => {
+app.get('/api/getGalleryImages', (req, res) => {
     try {
-        const allGalleryImages = await pool.query("SELECT * FROM galleryimageobjs");
+        const allGalleryImages = client.query("SELECT * FROM galleryimageobjs", (err, res) => {
+            if (err) throw err
+            console.log(res)
+            client.end()
+        });
         res.json(allGalleryImages.rows)
     }
     catch (err) {
@@ -89,7 +105,7 @@ const check_inputs = (title, desc, img) => {
     return null;
 }
 
-app.post('/addGallery', upload2.single('image'), urlEncodedParser, async (req, res, next) => {
+app.post('/addGallery', upload2.single('image'), urlEncodedParser, (req, res, next) => {
     const { title, description, image } = req.body;
     const errors = check_inputs(title, description, image);
     if (errors) {
@@ -100,7 +116,11 @@ app.post('/addGallery', upload2.single('image'), urlEncodedParser, async (req, r
     try {
         const newImgFileName = imgFileName.split(".")[0];
         const img_buffer = req.file.buffer.toString('base64');
-        const newGalleryImage = await pool.query("INSERT INTO galleryimageobjs (title, description, image, imgbuffer) VALUES($1, $2, $3, $4) RETURNING *", [title, description, newImgFileName, img_buffer])
+        client.query("INSERT INTO galleryimageobjs (title, description, image, imgbuffer) VALUES($1, $2, $3, $4) RETURNING *", [title, description, newImgFileName, img_buffer], (err, res) => {
+            if (err) throw err
+            console.log(res)
+            client.end()
+        })
     }
     catch (err) {
         console.error(err.message);
@@ -122,11 +142,19 @@ app.post("/api/login", cors(), (req, res) => {
     }
 })
 
-app.post("/api/setGView", cors(), async (req, res) => {
+app.post("/api/setGView", cors(), (req, res) => {
     try {
         const data = req.query;
-        const allGalleryImages = await pool.query("SELECT * FROM galleryimageobjs");
-        const gViewObj = await pool.query("SELECT * FROM galleryimageobjs WHERE galleryimageobj_id=" + data['data']);
+        const allGalleryImages = client.query("SELECT * FROM galleryimageobjs", (err, res) => {
+            if (err) throw err
+            console.log(res)
+            client.end()
+        });
+        const gViewObj = client.query("SELECT * FROM galleryimageobjs WHERE galleryimageobj_id=" + data['data'], (err, res) => {
+            if (err) throw err
+            console.log(res)
+            client.end()
+        });
         const gImageLength = allGalleryImages.rows.length;
         galleryViewImage = gViewObj.rows[0]
         if (galleryViewImage['galleryimageobj_id'] == gImageLength) {
