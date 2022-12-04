@@ -171,6 +171,7 @@ app.post("/api/setGView", cors(), (req, res) => {
                 console.log("GALLERY VIEW IMAGE IS BELOW");
                 console.log("GALLERY VIEW IMAGE IS BELOW");
                 console.log("GALLERY VIEW IMAGE IS BELOW");
+                console.log(galleryViewImage);
                 // if (galleryViewImage['galleryimageobj_id'] == gImageLength) {
                 //     galleryViewImage['next'] = gImageLength - 1;
                 //     galleryViewImage['prev'] = null
