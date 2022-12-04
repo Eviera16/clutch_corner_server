@@ -149,8 +149,8 @@ app.post("/api/login", cors(), (req, res) => {
 
 app.post("/api/setGView", cors(), (req, res) => {
     console.log("IN THE SET G VIEW");
+    console.log("IN THE TRY BLOCK");
     try {
-        console.log("IN THE TRY BLOCK");
         const data = req.query;
         console.log("DATA IS BELOW");
         console.log(data);
