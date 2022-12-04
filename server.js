@@ -58,12 +58,12 @@ var galleryViewImage = {};
 
 app.get('/', (req, res) => {
     try {
-        const allGalleryImages = client.query("SELECT * FROM galleryimageobjs", (err, res) => {
-            if (err) throw err
-            console.log(res)
-            client.end()
-        });
-        numImages = allGalleryImages.rows.length;
+        // const allGalleryImages = client.query("SELECT * FROM galleryimageobjs", (err, res) => {
+        //     if (err) throw err
+        //     console.log(res)
+        //     client.end()
+        // });
+        // numImages = allGalleryImages.rows.length;
         res.render('index');
     }
     catch (err) {
