@@ -75,14 +75,13 @@ app.get('/', (req, res) => {
 
 app.get('/api/getGalleryImages', (req, res) => {
     try {
-        const allGalleryImages = client.query("SELECT * FROM galleryimageobjs", (err, res) => {
+        client.query("SELECT * FROM galleryimageobjs", (err, response) => {
             if (err) throw err
-            return res;
+            console.log("ALL GALLERY IMAGES BELOW");
+            console.log(response)
             // client.end()
         });
-        console.log("ALL GALLERY IMAGES BELOW");
-        console.log(allGalleryImages)
-        res.json(allGalleryImages.rows)
+        // res.json(allGalleryImages.rows)
     }
     catch (err) {
         console.error(err.message);
