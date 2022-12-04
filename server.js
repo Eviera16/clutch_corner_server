@@ -156,26 +156,29 @@ app.post("/api/setGView", cors(), (req, res) => {
         console.log(data);
         client.query("SELECT * FROM galleryimageobjs", (err, response) => {
             if (err) throw err
-            console.log("RESPONSE IS BELOW");
-            console.log(response);
             client.query("SELECT * FROM galleryimageobjs WHERE galleryimageobj_id=" + data['data'], (err, response2) => {
                 if (err) throw err
-                console.log("RESPONSE 2 IS BELOW");
-                console.log(response2);
-                console.log(response);
                 const allGalleryImages = response;
                 const gViewObj = response2;
                 const gImageLength = allGalleryImages.rows.length;
+                console.log("IMAGE OBJECT IS BELOW");
+                console.log("IMAGE OBJECT IS BELOW");
+                console.log("IMAGE OBJECT IS BELOW");
+                console.log("IMAGE OBJECT IS BELOW");
                 galleryViewImage = gViewObj.rows[0]
+                console.log(galleryViewImage);
                 if (galleryViewImage['galleryimageobj_id'] == gImageLength) {
+                    console.log("IS THE FIRST IMAGE");
                     galleryViewImage['next'] = gImageLength - 1;
                     galleryViewImage['prev'] = null
                 }
                 else if (galleryViewImage['galleryimageobj_id'] == 1) {
+                    console.log("IS THE LAST IMAGE");
                     galleryViewImage['next'] = null;
                     galleryViewImage['prev'] = 2;
                 }
                 else {
+                    console.log("IS NOT THE FIRST OR LAST IMAGE");
                     galleryViewImage['next'] = galleryViewImage['galleryimageobj_id'] - 1;
                     galleryViewImage['prev'] = galleryViewImage['galleryimageobj_id'] + 1;
                 }
