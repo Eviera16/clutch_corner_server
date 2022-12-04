@@ -58,13 +58,13 @@ var galleryViewImage = {};
 
 app.get('/', (req, res) => {
     try {
-        const allGalleryImages = client.query("SELECT * FROM galleryimageobjs", (err, res) => {
-            if (err) throw err
-            console.log(res)
-            client.end()
-        });
-        console.log("***** GALLERY IMAGES ARE BELOW *****");
-        console.log(allGalleryImages);
+        // const allGalleryImages = client.query("SELECT * FROM galleryimageobjs", (err, res) => {
+        //     if (err) throw err
+        //     console.log(res)
+        //     client.end()
+        // });
+        // console.log("***** GALLERY IMAGES ARE BELOW *****");
+        // console.log(allGalleryImages);
         // numImages = allGalleryImages.rows.length;
         res.render('index');
     }
@@ -78,7 +78,7 @@ app.get('/api/getGalleryImages', (req, res) => {
         const allGalleryImages = client.query("SELECT * FROM galleryimageobjs", (err, res) => {
             if (err) throw err
             console.log(res)
-            client.end()
+            // client.end()
         });
         res.json(allGalleryImages.rows)
     }
@@ -112,6 +112,8 @@ const check_inputs = (title, desc, img) => {
 app.post('/addGallery', upload2.single('image'), urlEncodedParser, (req, res, next) => {
     const { title, description } = req.body;
     const image = req.file;
+    console.log("IMAGE FILE BELOW");
+    console.log(image);
     const errors = check_inputs(title, description, image);
     if (errors) {
         return res.render('', {
@@ -123,8 +125,8 @@ app.post('/addGallery', upload2.single('image'), urlEncodedParser, (req, res, ne
         const img_buffer = req.file.buffer.toString('base64');
         client.query("INSERT INTO galleryimageobjs (title, description, image, imgbuffer) VALUES($1, $2, $3, $4) RETURNING *", [title, description, newImgFileName, img_buffer], (err, res) => {
             if (err) throw err
-            console.log(res)
-            client.end()
+            console.log("***** RES IS HERE *****", res)
+            // client.end()
         })
     }
     catch (err) {
@@ -153,12 +155,12 @@ app.post("/api/setGView", cors(), (req, res) => {
         const allGalleryImages = client.query("SELECT * FROM galleryimageobjs", (err, res) => {
             if (err) throw err
             console.log(res)
-            client.end()
+            // client.end()
         });
         const gViewObj = client.query("SELECT * FROM galleryimageobjs WHERE galleryimageobj_id=" + data['data'], (err, res) => {
             if (err) throw err
             console.log(res)
-            client.end()
+            // client.end()
         });
         const gImageLength = allGalleryImages.rows.length;
         galleryViewImage = gViewObj.rows[0]
